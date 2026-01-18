@@ -244,7 +244,6 @@ Promise.all([getCardList(), getUserInfo()])
   });
 
 const handleOpenStats = () => {
-
   getCardList()
     .then((cardsList) => {
       const UsersCount = getUsersCount(cardsList);
@@ -252,10 +251,16 @@ const handleOpenStats = () => {
       const MaxLikes = getMaxLikes(cardsList);
       const LikesChampion = getLikesChampion(cardsList);
       const popularCards = getPopularCards(cardsList);
-
       const modalStat = document.querySelector('.popup__content_content_info');
       const statElement = document.getElementById("popup-info-definition-template").content.querySelector('.popup__info-item').cloneNode(true);
       const popularCardElement = document.getElementById("popup-info-user-preview-template").content.querySelector('.popup__list-item_type_badge').cloneNode(true);
+
+      // Очистка контейнеров
+      const infoContainer = modalStat.querySelector('.popup__info');
+      const listContainer = modalStat.querySelector('.popup__list');
+      
+      infoContainer.innerHTML = '';
+      listContainer.innerHTML = '';
 
       const stat = [statElement.cloneNode(true), statElement.cloneNode(true), statElement.cloneNode(true), statElement.cloneNode(true)];
       stat[0].querySelector('.popup__info-term').textContent = 'Всего пользователей';
@@ -267,31 +272,21 @@ const handleOpenStats = () => {
       stat[3].querySelector('.popup__info-term').textContent = 'Чемпион лайков';
       stat[3].querySelector('.popup__info-description').textContent = LikesChampion;
 
-      const popularCardsList = [popularCardElement.cloneNode(true), popularCardElement.cloneNode(true), popularCardElement.cloneNode(true)];
-      popularCardsList[0].textContent = popularCards[0];
-      popularCardsList[1].textContent = popularCards[1];
-      popularCardsList[2].textContent = popularCards[2];
-      
-      if (modalStat.querySelector('.popup__info').querySelector('.popup__info-item')) {
-        modalStat.querySelector('.popup__info').querySelector('.popup__info-item').replaceWith();
-        modalStat.querySelector('.popup__info').querySelector('.popup__info-item').replaceWith();
-        modalStat.querySelector('.popup__info').querySelector('.popup__info-item').replaceWith();
-        modalStat.querySelector('.popup__info').querySelector('.popup__info-item').replaceWith();
-      }
-      if (modalStat.querySelector('.popup__list').querySelector('.popup__list-item_type_badge')) {
-        modalStat.querySelector('.popup__list').querySelector('.popup__list-item_type_badge').replaceWith();
-        modalStat.querySelector('.popup__list').querySelector('.popup__list-item_type_badge').replaceWith();
-        modalStat.querySelector('.popup__list').querySelector('.popup__list-item_type_badge').replaceWith();
+      const cardsToShow = Math.min(3, popularCards.length);
+      for (let i = 0; i < cardsToShow; i++) {
+        const cardItem = popularCardElement.cloneNode(true);
+        cardItem.textContent = popularCards[i];
+        listContainer.append(cardItem);
       }
       
       //Вывод 
       statsTitle.textContent = "Статистика карточек";
       stat.forEach((pair) => {        
-        modalStat.querySelector('.popup__info').append(pair);
+        infoContainer.append(pair);
       });
       statsText.textContent = "Популярные карточки:";
       popularCardsList.forEach((popularCard) => {
-        modalStat.querySelector('.popup__list').append(popularCard);
+        listContainer.append(popularCard);
       });
     })
     .catch((err) => {
