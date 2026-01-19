@@ -9,7 +9,7 @@
 import { getUserInfo, getCardList, setUserInfo, 
         setUserAvatar, addCard, deleteСard as apiDeleteCard,
         changeLikeCardStatus } from "./components/api.js";
-import { createCardElement, deleteCard, likeCard } from "./components/card.js";
+import { createCardElement } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 import { enableValidation, clearValidation } from "./components/validation.js";
 import { getUsersCount, getLikeCount, 
