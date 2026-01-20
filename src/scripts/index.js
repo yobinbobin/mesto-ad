@@ -169,7 +169,6 @@ const handleCardFormSubmit = (evt) => {
 const handleApiDeleteCard = (cardId, cardElement) => {
   apiDeleteCard(cardId)
     .then(() => {
-      // Удаляем карточку из DOM только после успешного ответа
       cardElement.remove();
     })
     .catch((err) => {
@@ -261,8 +260,8 @@ const handleOpenStats = () => {
       
       infoContainer.innerHTML = '';
       listContainer.innerHTML = '';
-
-      const stat = [statElement.cloneNode(true), statElement.cloneNode(true), statElement.cloneNode(true), statElement.cloneNode(true)];
+      // Заполнение контейнеров
+      const stat = Array.from({ length: 4 }, () => statElement.cloneNode(true));
       stat[0].querySelector('.popup__info-term').textContent = 'Всего пользователей';
       stat[0].querySelector('.popup__info-description').textContent = UsersCount;
       stat[1].querySelector('.popup__info-term').textContent = 'Всего лайков';
